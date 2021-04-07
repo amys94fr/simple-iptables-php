@@ -1,4 +1,12 @@
 <?php
+/***
+ SIMPLE PHP IPTABLES
+ ---------------------
+ This script block all ips found more than 1 time on selected log files
+ I use this script on my servers that not use requests directly on the server ip and only via domain names.
+ Of course config your apache in order to generate differents log files for each domain.
+*/
+
 //Array of all log files you want to ban ips
 // for centos $www_error_log_files = glob('/var/log/httpd/*');
 $www_error_log_files = array('/var/log/apache2/access.log','/var/log/apache2/access.log.1','/var/log/apache2/error.log','/var/log/apache2/error.log.1');
@@ -9,7 +17,9 @@ $banned_ips = array();
 $cmd_reset = '/sbin/iptables -F';
 exec($cmd_reset);
 
-//Some ips you want to whitlist you should put your ip to not be block yourself
+//Some ips you want to whitelist you should put your ips/proxies ips/vpn ips to not be block yourself
+//If you uses service like CloudFlare add all their ips cause that can block some requests
+//Also if you know some bot services / api / webhooks that you want to allow like uptime robot you need to add their ips too
 $allowed_ips = array(
 	'127.0.0.1',
 	//'your.allowed.ip.address',	
